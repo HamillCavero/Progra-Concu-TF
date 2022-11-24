@@ -1,7 +1,4 @@
-import Navbar from "./src/components/Navbar.js";
-import Explorer from "./src/components/Explorer.js";
 import Editor from "./src/components/Editor.js";
-import Status from "./src/components/Status.js";
 
 var app = new Vue({
   el: "#app",
@@ -10,32 +7,32 @@ var app = new Vue({
     return {
       socket: null,
       connected: false,
-      files: [{ name: "01 Doubly Linked List.cpp", content: "" }],
+      files: [{ name: "codigo.cpp", content: "" }],
       active: 0,
       mode: "text/x-c++src",
       //
       mirror: false,
       cursor: { ch: 0, line: 0 },
-      theme: "material-ocean",
+      theme: "dracula",
       //
       refresh: false,
     };
   },
 
   template: `
-    <div>
-        <Navbar :mirror="mirror" @toggle="mirror = !mirror" :connected="connected"/>
-        <div class="d-flex">
-            <Explorer :files="files" @addFile="addFile" @removeFile="removeFile" @openFile="openFile" :active="active"/>
-            <Editor :files="files" @openFile="openFile" :active="active" @edit="edit" :mode="mode" @cursor="setCursor" :refresh="refresh" :theme="theme"/>
-        </div>
-        <Status :mode="mode" :active="active" :files="files" :cursor="cursor" @setFont="setFont" @setTheme="setTheme"/>
-    </div>
-  `,
+  <div>
+      <Navbar :mirror="mirror" @toggle="mirror = !mirror" :connected="connected"/>
+      <div class="d-flex">
+          <Explorer :files="files" @addFile="addFile" @removeFile="removeFile" @openFile="openFile" :active="active"/>
+          <Editor :files="files" @openFile="openFile" :active="active" @edit="edit" :mode="mode" @cursor="setCursor" :refresh="refresh" :theme="theme"/>
+      </div>
+      <Status :mode="mode" :active="active" :files="files" :cursor="cursor" @setFont="setFont" @setTheme="setTheme"/>
+  </div>
+`,
+
   /* SOCKET */
   created() {
-    this.socket = io("https://code-blackboard.herokuapp.com/");
-    // this.socket = io("http://localhost:3000/");
+    this.socket = io("https://heroku-server-html.herokuapp.com/");
 
     this.socket.on("connect", () => {
       this.connected = true;
@@ -104,40 +101,6 @@ var app = new Vue({
               this.mode = "python";
               break;
 
-            case "md":
-              this.mode = "markdown";
-              break;
-
-            case "sql":
-              this.mode = "sql";
-              break;
-
-            case "sh":
-              this.mode = "shell";
-              break;
-
-            case "jsx":
-              this.mode = "jsx";
-              break;
-
-            case "html":
-            case "htm":
-              this.mode = "htmlmixed";
-              break;
-
-            case "xml":
-              this.mode = "xml";
-              break;
-
-            case "js":
-            case "json":
-              this.mode = "javascript";
-              break;
-
-            case "php":
-              this.mode = "php";
-              break;
-
             default:
               this.mode = "";
               break;
@@ -169,9 +132,6 @@ var app = new Vue({
   },
 
   components: {
-    Navbar,
-    Explorer,
     Editor,
-    Status,
   },
 });
