@@ -32,7 +32,7 @@ var app = new Vue({
 
   /* SOCKET */
   created() {
-    this.socket = io("https://heroku-server-html.herokuapp.com/");
+    this.socket = io("https://eco-app-tf.herokuapp.com/");
 
     this.socket.on("connect", () => {
       this.connected = true;
